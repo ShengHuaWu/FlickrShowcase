@@ -83,12 +83,12 @@ extension ImageListViewController: UICollectionViewDataSource {
             fatalError("Cell isn't ImageCell")
         }
         
-//        viewModel.downloadImage(at: indexPath) { (url) in
-//            guard cell.imageView.image == nil else { return }
-//            
-//            let data = try! Data(contentsOf: url)
-//            cell.imageView.image = UIImage(data: data)
-//        }
+        viewModel.downloadImage(at: indexPath) { (url) in
+            guard cell.imageView.image == nil else { return }
+            
+            let data = try! Data(contentsOf: url)
+            cell.imageView.image = UIImage(data: data)
+        }
         
         return cell
     }
@@ -100,5 +100,26 @@ extension ImageListViewController: UICollectionViewDelegate {
         guard indexPath.item == viewModel.state.count - 1 else { return }
         
         viewModel.fetchPhotos(for: "kittens")
+    }
+}
+
+// MARK: - Scroll View Delegate
+extension ImageListViewController: UIScrollViewDelegate {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        viewModel.suspendDownloadingImage()
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        guard !decelerate, case .normal = viewModel.state else { return }
+        
+        viewModel.resumeDownloadingImage()
+        collectionView.reloadItems(at: collectionView.indexPathsForVisibleItems)
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        guard case .normal = viewModel.state else { return }
+        
+        viewModel.resumeDownloadingImage()
+        collectionView.reloadItems(at: collectionView.indexPathsForVisibleItems)
     }
 }

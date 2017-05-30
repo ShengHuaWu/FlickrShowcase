@@ -15,8 +15,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let router = Router()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        window = UIWindow(frame: UIScreen.main.bounds)
+        ImageProvider.setUp()
         
+        window = UIWindow(frame: UIScreen.main.bounds)
         router.configure(window)
         
         return true

@@ -8,6 +8,7 @@
 
 import Foundation
 
+// MARK: - Image List View Model
 final class ImageListViewModel {
     // MARK: Properties
     private(set) var state: State<[FlickrPhoto]> = .normal([]) {
@@ -16,11 +17,13 @@ final class ImageListViewModel {
         }
     }
     
+    private let imageProvider: ImageProvider
     private let callback: (State<[FlickrPhoto]>) -> ()
     private var page: Int = 1
     
     // MARK: Deisgnated Initializer
-    init(callback: @escaping (State<[FlickrPhoto]>) -> ()) {
+    init(imageProvider: ImageProvider = ImageProvider(), callback: @escaping (State<[FlickrPhoto]>) -> ()) {
+        self.imageProvider = imageProvider
         self.callback = callback
     }
     
@@ -40,5 +43,33 @@ final class ImageListViewModel {
                 self.state = .error(error)
             }
         }
+    }
+    
+    func downloadImage(at indexPath: IndexPath, with completion: @escaping (URL) -> ()) {
+        guard let photo = state.value(at: indexPath.item) else { return }
+        
+        imageProvider.load(photo.url, for: photo.flickrID) { (result) in
+            switch result {
+            case let .success(url):
+                completion(url)
+            case let .failure(error):
+                print(error)
+            }
+        }
+    }
+    
+    func suspendDownloadingImage() {
+        imageProvider.suspendLoading()
+    }
+    
+    func resumeDownloadingImage() {
+        imageProvider.resumeLoading()
+    }
+}
+
+// MARK: - Flickr Photo Extension
+extension FlickrPhoto {
+    var url: URL {
+        return URL(string: "https://farm\(farm).static.flickr.com/\(server)/\(flickrID)_\(secret).jpg")!
     }
 }

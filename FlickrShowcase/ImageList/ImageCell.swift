@@ -16,6 +16,14 @@ final class ImageCell: UICollectionViewCell {
         return imageView
     }()
     
+    var usePlaceholder = true {
+        didSet {
+            if usePlaceholder {
+                imageView.image = nil
+            }
+        }
+    }
+    
     // MRRK: Designated Initializer
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -38,6 +46,6 @@ final class ImageCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        imageView.image = nil
+        usePlaceholder = true
     }
 }

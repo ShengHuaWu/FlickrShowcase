@@ -51,6 +51,18 @@ struct Router {
             let alert = UIAlertController.makeAlert(with: error)
             imageListVC.present(alert, animated: true, completion: nil)
         }
+        
+        imageListViewController.presentSearching = { [weak viewController = imageListViewController] in
+            let searchingVC = SearchingViewController()
+            self.configure(searchingVC)
+            
+            let navigationController = UINavigationController(rootViewController: searchingVC)
+            
+            viewController.flatMap{ $0.present(navigationController, animated: true, completion: nil) }
+        }
+    }
+    
+    func configure(_ searchingViewController: SearchingViewController) {
+        searchingViewController.title = "Search"
     }
 }
-

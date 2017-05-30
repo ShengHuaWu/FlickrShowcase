@@ -31,10 +31,14 @@ final class ImageListViewController: UIViewController {
     
     var viewModel: ImageListViewModel!
     var presentError: ((Error) -> ())?
+    var presentSearching: (() -> ())?
         
     // MARK: View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let searchButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchAction(sender:)))
+        navigationItem.rightBarButtonItem = searchButtonItem
         
         view.addSubview(collectionView)
         view.addSubview(loadingView)
@@ -55,6 +59,11 @@ final class ImageListViewController: UIViewController {
         
         collectionView.frame = view.bounds
         loadingView.frame = view.bounds
+    }
+    
+    // MARK: Actions
+    func searchAction(sender: UIBarButtonItem) {
+        presentSearching?()
     }
     
     // MARK: Public Methods

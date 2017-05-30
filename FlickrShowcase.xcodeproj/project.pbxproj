@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9B0280A61EDD546B0065EC4C /* SearchingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0280A51EDD546B0065EC4C /* SearchingViewController.swift */; };
+		9B0280A91EDD589E0065EC4C /* KeyPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0280A81EDD589E0065EC4C /* KeyPayload.swift */; };
+		9B0280AB1EDD58C00065EC4C /* NotificationDesciptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0280AA1EDD58C00065EC4C /* NotificationDesciptor.swift */; };
 		9B2F9ED01EDD03A800501DCE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2F9ECF1EDD03A800501DCE /* AppDelegate.swift */; };
 		9B2F9ED71EDD03A800501DCE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B2F9ED61EDD03A800501DCE /* Assets.xcassets */; };
 		9B2F9EDA1EDD03A800501DCE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B2F9ED81EDD03A800501DCE /* LaunchScreen.storyboard */; };
@@ -22,6 +25,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9B0280A51EDD546B0065EC4C /* SearchingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchingViewController.swift; path = Searching/SearchingViewController.swift; sourceTree = "<group>"; };
+		9B0280A81EDD589E0065EC4C /* KeyPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyPayload.swift; path = Common/KeyPayload.swift; sourceTree = "<group>"; };
+		9B0280AA1EDD58C00065EC4C /* NotificationDesciptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotificationDesciptor.swift; path = Common/NotificationDesciptor.swift; sourceTree = "<group>"; };
 		9B2F9ECC1EDD03A800501DCE /* FlickrShowcase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlickrShowcase.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B2F9ECF1EDD03A800501DCE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9B2F9ED61EDD03A800501DCE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -49,6 +55,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9B0280A71EDD546F0065EC4C /* Searching */ = {
+			isa = PBXGroup;
+			children = (
+				9B0280A51EDD546B0065EC4C /* SearchingViewController.swift */,
+			);
+			name = Searching;
+			sourceTree = "<group>";
+		};
 		9B2F9EC31EDD03A800501DCE = {
 			isa = PBXGroup;
 			children = (
@@ -70,6 +84,7 @@
 			children = (
 				9B2F9EEA1EDD070E00501DCE /* Common */,
 				9B2F9EE31EDD03EE00501DCE /* ImageList */,
+				9B0280A71EDD546F0065EC4C /* Searching */,
 				9B2F9ECF1EDD03A800501DCE /* AppDelegate.swift */,
 				9B2F9ED61EDD03A800501DCE /* Assets.xcassets */,
 				9B2F9ED81EDD03A800501DCE /* LaunchScreen.storyboard */,
@@ -93,7 +108,9 @@
 			children = (
 				9B2F9EED1EDD0C6D00501DCE /* FlickrPhoto.swift */,
 				9B2F9EF31EDD1E2A00501DCE /* ImageProvider.swift */,
+				9B0280A81EDD589E0065EC4C /* KeyPayload.swift */,
 				9B2F9EF11EDD19FC00501DCE /* LoadingView.swift */,
+				9B0280AA1EDD58C00065EC4C /* NotificationDesciptor.swift */,
 				9B2F9EE81EDD070B00501DCE /* State.swift */,
 				9B2F9EEB1EDD0B3A00501DCE /* WebService.swift */,
 				9B2F9EEF1EDD119C00501DCE /* UIAlertController+Helpers.swift */,
@@ -175,12 +192,15 @@
 				9B2F9EF41EDD1E2A00501DCE /* ImageProvider.swift in Sources */,
 				9B2F9EEC1EDD0B3A00501DCE /* WebService.swift in Sources */,
 				9B2F9EE51EDD069500501DCE /* ImageListViewModel.swift in Sources */,
+				9B0280A61EDD546B0065EC4C /* SearchingViewController.swift in Sources */,
 				9B2F9EF01EDD119C00501DCE /* UIAlertController+Helpers.swift in Sources */,
 				9B2F9EE71EDD06C200501DCE /* ImageCell.swift in Sources */,
 				9B2F9EE21EDD03EA00501DCE /* ImageListViewController.swift in Sources */,
 				9B2F9EF21EDD19FC00501DCE /* LoadingView.swift in Sources */,
+				9B0280AB1EDD58C00065EC4C /* NotificationDesciptor.swift in Sources */,
 				9B2F9EEE1EDD0C6D00501DCE /* FlickrPhoto.swift in Sources */,
 				9B2F9EE91EDD070B00501DCE /* State.swift in Sources */,
+				9B0280A91EDD589E0065EC4C /* KeyPayload.swift in Sources */,
 				9B2F9ED01EDD03A800501DCE /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -335,6 +355,7 @@
 				9B2F9EE01EDD03A800501DCE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

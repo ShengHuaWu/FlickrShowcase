@@ -22,12 +22,15 @@ final class ImageListViewController: UIViewController {
     }()
     
     var viewModel: ImageListViewModel!
+    var presentError: ((Error) -> ())?
     
     // MARK: View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.addSubview(collectionView)
+        
+        viewModel.fetchPhotos(for: "kittens")
     }
     
     override func viewWillLayoutSubviews() {
@@ -42,6 +45,19 @@ final class ImageListViewController: UIViewController {
         layout.minimumLineSpacing = margin
         
         collectionView.frame = view.bounds
+    }
+    
+    // MARK: Public Methods
+    func updateUI(with state: State<[FlickrPhoto]>) {
+        switch state {
+        case .loading:
+            break
+        case let .error(error):
+            presentError?(error)
+            break
+        case .normal:
+            collectionView.reloadData()
+        }
     }
 }
 

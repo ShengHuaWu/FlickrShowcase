@@ -39,10 +39,17 @@ struct Router {
     func configure(_ imageListViewController: ImageListViewController) {
         imageListViewController.title = "Images"
         
-        let viewModel = ImageListViewModel { (state) in
-            
+        let viewModel = ImageListViewModel { [weak viewController = imageListViewController] (state) in
+            viewController.flatMap { $0.updateUI(with: state) }
         }
         imageListViewController.viewModel = viewModel
+        
+        imageListViewController.presentError = { [weak viewController = imageListViewController] (error) in
+            guard let imageListVC = viewController else { return }
+            
+            let alert = UIAlertController.makeAlert(with: error)
+            imageListVC.present(alert, animated: true, completion: nil)
+        }
     }
 }
 

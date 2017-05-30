@@ -58,7 +58,6 @@ struct Router {
             self.configure(searchingVC)
             
             let navigationController = UINavigationController(rootViewController: searchingVC)
-            
             viewController.flatMap{ $0.present(navigationController, animated: true, completion: nil) }
         }
     }

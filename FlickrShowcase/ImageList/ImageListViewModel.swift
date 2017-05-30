@@ -20,7 +20,7 @@ final class ImageListViewModel {
     private let imageProvider: ImageProvider
     private let callback: (State<[FlickrPhoto]>) -> ()
     private var page: Int = 1
-    var keyword: String = "kittens"
+    private var keyword: String = ""
     
     // MARK: Deisgnated Initializer
     init(imageProvider: ImageProvider = ImageProvider(), callback: @escaping (State<[FlickrPhoto]>) -> ()) {
@@ -29,8 +29,10 @@ final class ImageListViewModel {
     }
     
     // MARK: Public Methods
-    func fetchPhotos(shouldReset: Bool = false, with webService: WebService = WebService()) {
+    func fetchPhotos(for newKeyword: String? = nil, shouldReset: Bool = false, with webService: WebService = WebService()) {
+        newKeyword.flatMap{ keyword = $0 }
         page = shouldReset ? 1 : page
+        
         let previousState = shouldReset ? .normal([]) : state
         state = .loading
         

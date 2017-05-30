@@ -43,7 +43,7 @@ final class ImageListViewController: UIViewController {
         view.addSubview(collectionView)
         view.addSubview(loadingView)
         
-        viewModel.fetchPhotos()
+        viewModel.fetchPhotos(for: "kittens")
     }
     
     override func viewWillLayoutSubviews() {
@@ -137,8 +137,8 @@ extension ImageListViewController: UIScrollViewDelegate {
 // MARK: - Searching View Controller Delegate
 extension ImageListViewController: SearchingViewControllerDelegate {
     func didClickSearchButton(_ searchingViewController: SearchingViewController, with keyword: String) {
-        viewModel.keyword = keyword
-        viewModel.fetchPhotos(shouldReset: true)
+        viewModel.fetchPhotos(for: keyword, shouldReset: true)
+        collectionView.scrollToItem(at: IndexPath(item: 0, section:0), at: .top, animated: true)
         searchingViewController.dismiss(animated: true, completion: nil)
     }
 }

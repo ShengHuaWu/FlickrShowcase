@@ -22,7 +22,14 @@ extension State where T: Collection {
         }
     }
     
-    func value(at index: T.Index) -> T.Iterator.Element? {
+    var allElements: T? {
+        switch self {
+        case let .normal(values): return values
+        default: return nil
+        }
+    }
+    
+    func element(at index: T.Index) -> T.Iterator.Element? {
         switch self {
         case let .normal(values): return values[index]
         default: return nil

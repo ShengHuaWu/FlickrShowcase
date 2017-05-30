@@ -43,7 +43,7 @@ final class ImageListViewController: UIViewController {
         view.addSubview(collectionView)
         view.addSubview(loadingView)
         
-        viewModel.fetchPhotos(for: "kittens")
+        viewModel.fetchPhotos()
     }
     
     override func viewWillLayoutSubviews() {
@@ -109,7 +109,7 @@ extension ImageListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard indexPath.item == viewModel.state.count - 1 else { return }
         
-        viewModel.fetchPhotos(for: "kittens")
+        viewModel.fetchPhotos()
     }
 }
 
@@ -131,5 +131,14 @@ extension ImageListViewController: UIScrollViewDelegate {
         
         viewModel.resumeDownloadingImage()
         collectionView.reloadItems(at: collectionView.indexPathsForVisibleItems)
+    }
+}
+
+// MARK: - Searching View Controller Delegate
+extension ImageListViewController: SearchingViewControllerDelegate {
+    func didClickSearchButton(_ searchingViewController: SearchingViewController, with keyword: String) {
+        viewModel.keyword = keyword
+        viewModel.fetchPhotos(shouldReset: true)
+        searchingViewController.dismiss(animated: true, completion: nil)
     }
 }

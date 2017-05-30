@@ -54,6 +54,7 @@ struct Router {
         
         imageListViewController.presentSearching = { [weak viewController = imageListViewController] in
             let searchingVC = SearchingViewController()
+            searchingVC.delegate = viewController
             self.configure(searchingVC)
             
             let navigationController = UINavigationController(rootViewController: searchingVC)
@@ -64,5 +65,10 @@ struct Router {
     
     func configure(_ searchingViewController: SearchingViewController) {
         searchingViewController.title = "Search"
+        
+        let viewModel = SearchingViewModel { [weak viewController = searchingViewController] (state) in
+            viewController.flatMap{ $0.updateUI(with: state) }
+        }
+        searchingViewController.viewModel = viewModel
     }
 }

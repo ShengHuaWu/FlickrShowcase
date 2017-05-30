@@ -20,6 +20,7 @@ final class ImageListViewModel {
     private let imageProvider: ImageProvider
     private let callback: (State<[FlickrPhoto]>) -> ()
     private var page: Int = 1
+    var keyword: String = "kittens"
     
     // MARK: Deisgnated Initializer
     init(imageProvider: ImageProvider = ImageProvider(), callback: @escaping (State<[FlickrPhoto]>) -> ()) {
@@ -28,10 +29,9 @@ final class ImageListViewModel {
     }
     
     // MARK: Public Methods
-    func fetchPhotos(for keyword: String, shouldResetPage: Bool = false, with webService: WebService = WebService()) {
-        if shouldResetPage { page = 1 }
-        
-        let previousState = state
+    func fetchPhotos(shouldReset: Bool = false, with webService: WebService = WebService()) {
+        page = shouldReset ? 1 : page
+        let previousState = shouldReset ? .normal([]) : state
         state = .loading
         
         webService.load(resource: flickrPhotos(at: page, for: keyword)) { (result) in
@@ -46,7 +46,7 @@ final class ImageListViewModel {
     }
     
     func downloadImage(at indexPath: IndexPath, with completion: @escaping (URL) -> ()) {
-        guard let photo = state.value(at: indexPath.item) else { return }
+        guard let photo = state.element(at: indexPath.item) else { return }
         
         imageProvider.load(photo.url, for: photo.flickrID) { (result) in
             switch result {

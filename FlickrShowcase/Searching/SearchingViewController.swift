@@ -8,6 +8,11 @@
 
 import UIKit
 
+// MARK: - Searching View Controller Delegate
+protocol SearchingViewControllerDelegate: class {
+    func didClickSearchButton(_ searchingViewController: SearchingViewController, with keyword: String)
+}
+
 // MARK: - Searching View Controller
 final class SearchingViewController: UIViewController {
     // MARK: Properties
@@ -29,6 +34,9 @@ final class SearchingViewController: UIViewController {
         return searchBar
     }()
     
+    var viewModel: SearchingViewModel!
+    weak var delegate: SearchingViewControllerDelegate?
+    
     // MARK: View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +47,8 @@ final class SearchingViewController: UIViewController {
         navigationItem.leftBarButtonItem = cancelButtonItem
         
         view.addSubview(tableView)
+        
+        viewModel.fetchSearchHistory()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -87,17 +97,27 @@ final class SearchingViewController: UIViewController {
         center.removeObserver(self, name: UIViewController.keyboardWillShow.name, object: nil)
         center.removeObserver(self, name: UIViewController.keyboardWillHide.name, object: nil)
     }
+    
+    // MARK: Public Methods
+    func updateUI(with state: State<[String]>) {
+        switch state {
+        case .normal:
+            tableView.reloadData()
+        default:
+            break
+        }
+    }
 }
 
 // MARK: - Table View Data Source
 extension SearchingViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return viewModel.state.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: UITableViewCell.description(), for: indexPath)
-        cell.textLabel?.text = "searching"
+        cell.textLabel?.text = viewModel.state.element(at: indexPath.row)
         return cell
     }
 }
@@ -105,13 +125,18 @@ extension SearchingViewController: UITableViewDataSource {
 // MARK: - Table View Delegate
 extension SearchingViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        viewModel.state.element(at: indexPath.row).flatMap {
+            delegate?.didClickSearchButton(self, with: $0)
+        }
     }
 }
 
 // MARK: - Search Bar Delegate
 extension SearchingViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        
+        searchBar.text.flatMap {
+            viewModel.refreshSearchHistory(with: $0)
+            delegate?.didClickSearchButton(self, with: $0)
+        }
     }
 }

@@ -28,10 +28,21 @@ struct Router {
         window?.backgroundColor = .white
         
         let imageListVC = ImageListViewController()
+        configure(imageListVC)
+        
         let navigationController = UINavigationController(rootViewController: imageListVC)
         
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
+    }
+    
+    func configure(_ imageListViewController: ImageListViewController) {
+        imageListViewController.title = "Images"
+        
+        let viewModel = ImageListViewModel { (state) in
+            
+        }
+        imageListViewController.viewModel = viewModel
     }
 }
 

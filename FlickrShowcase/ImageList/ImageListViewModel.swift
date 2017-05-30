@@ -17,6 +17,7 @@ final class ImageListViewModel {
     }
     
     private let callback: (State<[FlickrPhoto]>) -> ()
+    private var page: Int = 1
     
     // MARK: Deisgnated Initializer
     init(callback: @escaping (State<[FlickrPhoto]>) -> ()) {
@@ -24,11 +25,17 @@ final class ImageListViewModel {
     }
     
     // MARK: Public Methods
-    func fetchPhotos(at page: Int = 1, for keyword: String, with webService: WebService = WebService()) {
+    func fetchPhotos(for keyword: String, shouldResetPage: Bool = false, with webService: WebService = WebService()) {
+        if shouldResetPage { page = 1 }
+        
+        let previousState = state
+        state = .loading
+        
         webService.load(resource: flickrPhotos(at: page, for: keyword)) { (result) in
             switch result {
             case let .success(photos):
-                self.state = .normal(photos)
+                self.page += 1
+                self.state = previousState.append(newValues: photos)
             case let .failure(error):
                 self.state = .error(error)
             }

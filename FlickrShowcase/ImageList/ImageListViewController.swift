@@ -17,18 +17,27 @@ final class ImageListViewController: UIViewController {
         collectionView.register(ImageCell.self, forCellWithReuseIdentifier: ImageCell.description())
         collectionView.backgroundColor = .white
         collectionView.dataSource = self
+        collectionView.delegate = self
         
         return collectionView
     }()
     
+    private lazy var loadingView: LoadingView = {
+        let view = LoadingView(frame: .zero)
+        view.isHidden = true
+        
+        return view
+    }()
+    
     var viewModel: ImageListViewModel!
     var presentError: ((Error) -> ())?
-    
+        
     // MARK: View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.addSubview(collectionView)
+        view.addSubview(loadingView)
         
         viewModel.fetchPhotos(for: "kittens")
     }
@@ -45,17 +54,19 @@ final class ImageListViewController: UIViewController {
         layout.minimumLineSpacing = margin
         
         collectionView.frame = view.bounds
+        loadingView.frame = view.bounds
     }
     
     // MARK: Public Methods
     func updateUI(with state: State<[FlickrPhoto]>) {
         switch state {
         case .loading:
-            break
+            loadingView.isHidden = false
         case let .error(error):
+            loadingView.isHidden = true
             presentError?(error)
-            break
         case .normal:
+            loadingView.isHidden = true
             collectionView.reloadData()
         }
     }
@@ -80,5 +91,14 @@ extension ImageListViewController: UICollectionViewDataSource {
 //        }
         
         return cell
+    }
+}
+
+// MARK: - Collection View Delegate
+extension ImageListViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard indexPath.item == viewModel.state.count - 1 else { return }
+        
+        viewModel.fetchPhotos(for: "kittens")
     }
 }

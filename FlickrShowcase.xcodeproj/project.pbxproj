@@ -17,6 +17,7 @@
 		9B2F9EEC1EDD0B3A00501DCE /* WebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2F9EEB1EDD0B3A00501DCE /* WebService.swift */; };
 		9B2F9EEE1EDD0C6D00501DCE /* FlickrPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2F9EED1EDD0C6D00501DCE /* FlickrPhoto.swift */; };
 		9B2F9EF01EDD119C00501DCE /* UIAlertController+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2F9EEF1EDD119C00501DCE /* UIAlertController+Helpers.swift */; };
+		9B2F9EF21EDD19FC00501DCE /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2F9EF11EDD19FC00501DCE /* LoadingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		9B2F9EEB1EDD0B3A00501DCE /* WebService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebService.swift; path = Common/WebService.swift; sourceTree = "<group>"; };
 		9B2F9EED1EDD0C6D00501DCE /* FlickrPhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FlickrPhoto.swift; path = Common/FlickrPhoto.swift; sourceTree = "<group>"; };
 		9B2F9EEF1EDD119C00501DCE /* UIAlertController+Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIAlertController+Helpers.swift"; path = "Common/UIAlertController+Helpers.swift"; sourceTree = "<group>"; };
+		9B2F9EF11EDD19FC00501DCE /* LoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadingView.swift; path = Common/LoadingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				9B2F9EED1EDD0C6D00501DCE /* FlickrPhoto.swift */,
+				9B2F9EF11EDD19FC00501DCE /* LoadingView.swift */,
 				9B2F9EE81EDD070B00501DCE /* State.swift */,
 				9B2F9EEB1EDD0B3A00501DCE /* WebService.swift */,
 				9B2F9EEF1EDD119C00501DCE /* UIAlertController+Helpers.swift */,
@@ -171,6 +174,7 @@
 				9B2F9EF01EDD119C00501DCE /* UIAlertController+Helpers.swift in Sources */,
 				9B2F9EE71EDD06C200501DCE /* ImageCell.swift in Sources */,
 				9B2F9EE21EDD03EA00501DCE /* ImageListViewController.swift in Sources */,
+				9B2F9EF21EDD19FC00501DCE /* LoadingView.swift in Sources */,
 				9B2F9EEE1EDD0C6D00501DCE /* FlickrPhoto.swift in Sources */,
 				9B2F9EE91EDD070B00501DCE /* State.swift in Sources */,
 				9B2F9ED01EDD03A800501DCE /* AppDelegate.swift in Sources */,

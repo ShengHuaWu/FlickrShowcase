@@ -28,4 +28,13 @@ extension State where T: Collection {
         default: return nil
         }
     }
+    
+    func append(newValues: T) -> State {
+        switch self {
+        case let .normal(values):
+            let merged = [values, newValues].flatMap{ $0 }
+            return .normal(merged as! T)
+        default: return .normal(newValues)
+        }
+    }
 }

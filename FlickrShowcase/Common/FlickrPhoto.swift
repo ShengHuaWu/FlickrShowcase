@@ -49,7 +49,8 @@ extension FlickrPhoto {
 }
 
 func flickrPhotos(at page: Int, for keyword: String) -> Resource<[FlickrPhoto]> {
-    let url = URL(string: "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=3e7cc266ae2b0e0d78e279ce8e361736&format=json&nojsoncallback=1&safe_search=1&page=\(page)&text=\(keyword)")!
+    let encodedKeyword = keyword.urlEncodedString()
+    let url = URL(string: "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=3e7cc266ae2b0e0d78e279ce8e361736&format=json&nojsoncallback=1&safe_search=1&page=\(page)&text=\(encodedKeyword)")!
     
     return Resource(url: url) { (json) -> [FlickrPhoto] in
         guard let dictionary = json as? JSONDictionary,
@@ -59,5 +60,17 @@ func flickrPhotos(at page: Int, for keyword: String) -> Resource<[FlickrPhoto]> 
         }
         
         return try photos.map(FlickrPhoto.init)
+    }
+}
+
+// MARK: - String Extension
+extension String {
+    func urlEncodedString(_ encodeAll: Bool = false) -> String {
+        var allowedCharacterSet: CharacterSet = .urlQueryAllowed
+        allowedCharacterSet.remove(charactersIn: "\n:#/?@!$&'()*+,;=")
+        if !encodeAll {
+            allowedCharacterSet.insert(charactersIn: "[]")
+        }
+        return self.addingPercentEncoding(withAllowedCharacters: allowedCharacterSet)!
     }
 }

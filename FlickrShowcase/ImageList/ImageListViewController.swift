@@ -11,7 +11,7 @@ import UIKit
 // MARK: - Image List View Controller
 final class ImageListViewController: UIViewController {
     // MARK: Properties
-    fileprivate lazy var collectionView: UICollectionView = {
+    private(set) lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(ImageCell.self, forCellWithReuseIdentifier: ImageCell.description())
@@ -132,14 +132,5 @@ extension ImageListViewController: UIScrollViewDelegate {
         
         viewModel.resumeDownloadingImage()
         collectionView.reloadItems(at: collectionView.indexPathsForVisibleItems)
-    }
-}
-
-// MARK: - Searching View Controller Delegate
-extension ImageListViewController: SearchingViewControllerDelegate {
-    func didClickSearchButton(_ searchingViewController: SearchingViewController, with keyword: String) {
-        viewModel.fetchPhotos(for: keyword, shouldReset: true)
-        collectionView.scrollToItem(at: IndexPath(item: 0, section:0), at: .top, animated: true)
-        searchingViewController.dismiss(animated: true, completion: nil)
     }
 }

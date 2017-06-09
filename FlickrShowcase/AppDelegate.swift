@@ -53,21 +53,30 @@ struct Router {
         }
         
         imageListViewController.presentSearching = { [weak viewController = imageListViewController] in
+            guard let imageListVC = viewController else { return }
+            
             let searchingVC = SearchingViewController()
-            searchingVC.delegate = viewController
-            self.configure(searchingVC)
+            self.configure(searchingVC, with: imageListVC)
             
             let navigationController = UINavigationController(rootViewController: searchingVC)
-            viewController.flatMap{ $0.present(navigationController, animated: true, completion: nil) }
+            imageListVC.present(navigationController, animated: true, completion: nil)
         }
     }
     
-    func configure(_ searchingViewController: SearchingViewController) {
+    func configure(_ searchingViewController: SearchingViewController, with imageListViewController: ImageListViewController) {
         searchingViewController.title = "Search"
         
         let viewModel = SearchingViewModel { [weak viewController = searchingViewController] (state) in
             viewController.flatMap{ $0.updateUI(with: state) }
         }
         searchingViewController.viewModel = viewModel
+        
+        searchingViewController.didClickSearchButton = { [weak viewController = searchingViewController] (keyword) in
+            guard let searchingVC = viewController else { return }
+            
+            imageListViewController.viewModel.fetchPhotos(for: keyword, shouldReset: true)
+            imageListViewController.collectionView.scrollToItem(at: IndexPath(item: 0, section:0), at: .top, animated: true)
+            searchingVC.dismiss(animated: true, completion: nil)
+        }
     }
 }

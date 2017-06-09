@@ -8,12 +8,6 @@
 
 import UIKit
 
-// MARK: - Searching View Controller Delegate
-protocol SearchingViewControllerDelegate: class {
-    func didClickSearchButton(_ searchingViewController: SearchingViewController, with keyword: String)
-}
-
-// MARK: - Searching View Controller
 final class SearchingViewController: UIViewController {
     // MARK: Properties
     private lazy var tableView: UITableView = {
@@ -35,7 +29,7 @@ final class SearchingViewController: UIViewController {
     }()
     
     var viewModel: SearchingViewModel!
-    weak var delegate: SearchingViewControllerDelegate?
+    var didClickSearchButton: ((String) -> ())?
     
     // MARK: View Life Cycle
     override func viewDidLoad() {
@@ -126,7 +120,7 @@ extension SearchingViewController: UITableViewDataSource {
 extension SearchingViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         viewModel.state.element(at: indexPath.row).flatMap {
-            delegate?.didClickSearchButton(self, with: $0)
+            didClickSearchButton?($0)
         }
     }
 }
@@ -136,7 +130,7 @@ extension SearchingViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text.flatMap {
             viewModel.refreshSearchHistory(with: $0)
-            delegate?.didClickSearchButton(self, with: $0)
+            didClickSearchButton?($0)
         }
     }
 }

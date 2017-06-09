@@ -50,7 +50,7 @@ final class ImageListViewModel {
     func downloadImage(at indexPath: IndexPath, with completion: @escaping (URL) -> ()) {
         guard let photo = state.element(at: indexPath.item) else { return }
         
-        imageProvider.load(photo.url, for: photo.flickrID) { (result) in
+        imageProvider.load(at: photo.url, to: photo.fileURL()) { (result) in
             switch result {
             case let .success(url):
                 completion(url)
@@ -73,5 +73,13 @@ final class ImageListViewModel {
 extension FlickrPhoto {
     var url: URL {
         return URL(string: "https://farm\(farm).static.flickr.com/\(server)/\(flickrID)_\(secret).jpg")!
+    }
+    
+    func fileURL(with userDefaults: UserDefaults = UserDefaults.standard) -> URL {
+        guard let directoryURL = userDefaults.temporaryDirectoryURL() else {
+            fatalError("Tempoaray directory doesn'r exist.")
+        }
+        
+        return directoryURL.appendingPathComponent(flickrID)
     }
 }

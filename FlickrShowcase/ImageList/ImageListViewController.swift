@@ -97,8 +97,7 @@ extension ImageListViewController: UICollectionViewDataSource {
         viewModel.downloadImage(at: indexPath) { (url) in
             guard cell.usePlaceholder else { return }
             
-            let data = try! Data(contentsOf: url)
-            cell.imageView.image = UIImage(data: data)
+            cell.imageView.image = UIImage(contentsOfFile: url.path)
             cell.usePlaceholder = false
         }
         

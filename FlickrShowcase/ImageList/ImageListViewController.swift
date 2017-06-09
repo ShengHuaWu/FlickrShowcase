@@ -76,6 +76,8 @@ final class ImageListViewController: UIViewController {
             presentError?(error)
         case .normal:
             loadingView.isHidden = true
+            
+            // TODO: Insert new FlickrPhotos
             collectionView.reloadData()
         }
     }

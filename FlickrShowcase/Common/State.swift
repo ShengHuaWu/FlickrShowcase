@@ -14,7 +14,7 @@ enum State<T> {
     case error(Error)
 }
 
-extension State where T: Collection {
+extension State where T: RangeReplaceableCollection {
     var count: T.IndexDistance {
         switch self {
         case let .normal(values): return values.count
@@ -36,12 +36,12 @@ extension State where T: Collection {
         }
     }
     
-    func append(newValues: T) -> State {
+    func append(newElements: T) -> State {
         switch self {
-        case let .normal(values):
-            let merged = [values, newValues].flatMap{ $0 }
-            return .normal(merged as! T)
-        default: return .normal(newValues)
+        case let .normal(elements):
+            return .normal(elements + newElements)
+        default:
+            return .normal(newElements)
         }
     }
 }

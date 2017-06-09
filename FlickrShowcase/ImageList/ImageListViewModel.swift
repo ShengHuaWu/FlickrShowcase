@@ -40,7 +40,7 @@ final class ImageListViewModel {
             switch result {
             case let .success(photos):
                 self.page += 1
-                self.state = previousState.append(newValues: photos)
+                self.state = previousState.append(newElements: photos)
             case let .failure(error):
                 self.state = .error(error)
             }
